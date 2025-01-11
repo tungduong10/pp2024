@@ -2,8 +2,11 @@ from domains.management import Management
 from input import *
 from output import list_students, list_courses, list_marks 
 import os
+from compress import compress,decompress,load
 def main():
     menu=Management()
+    decompress()
+    load(menu)
     while(True):
         print("\n-----Student Management System-----")
         print("1.Input student info\n2.Input course info\n3.Input marks for a course\n4.List all courses\n5.List all students\n6.Show marks for a course")
@@ -61,6 +64,7 @@ def main():
                 case 7:
                     print("Exiting the program.")
                     os.system('cls' if os.name=='nt' else 'clear')
+                    compress()
                     break
                 case _:
                     print("Invalid choice. Pls try again")
