@@ -54,3 +54,17 @@ def mark_input(course_id,students):
             except ValueError:
                 print("invalid! Pls enter a number")
     return mark_obj
+def write_students(students):
+    with open("students.txt","w") as f:
+        for student_id,student in students.items():
+            f.write(f"SID: {student_id} - Name: {student.name} - DoB: {student.dob}\n")
+def write_courses(courses):
+    with open("courses.txt","w") as f:
+        for course_id,course in courses.items():
+            f.write(f"Course ID: {course_id} - Name: {course.name} - Credits: {course.credits}\n")
+def write_marks(marks,students):
+    with open("marks.txt","w") as f:
+        for course_id,mark in marks.items():
+            f.write(f"Marks for course {course_id}:\n")
+            for student_id,mark in mark.get_student_marks().items():
+                f.write(f"ID: {student_id} ({students[student_id].name}): {mark}\n")
