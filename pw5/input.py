@@ -4,7 +4,8 @@ import re
 from domains.student import Student
 from domains.courses import Courses
 from domains.marks import Marks
-
+import os
+from compress import *
 def student_input(existing_ids):
     name=input("Enter the student's name: ")
     while(True):
@@ -13,7 +14,7 @@ def student_input(existing_ids):
             print("Invalid ID! Pls enter valid ID!")
             continue
         if student_id in existing_ids:
-            print("Student ID alr exists! Pls enter unique ID: ")
+            print("Student ID alr exists! Pls enter unique ID! ")
             continue
         break
     while(True):
@@ -55,15 +56,15 @@ def mark_input(course_id,students):
                 print("invalid! Pls enter a number")
     return mark_obj
 def write_students(students):
-    with open("students.txt","w") as f:
+    with open(file_path("students.txt"),"w") as f:
         for student_id,student in students.items():
             f.write(f"SID: {student_id} - Name: {student.name} - DoB: {student.dob}\n")
 def write_courses(courses):
-    with open("courses.txt","w") as f:
+    with open(file_path("courses.txt"),"w") as f:
         for course_id,course in courses.items():
             f.write(f"Course ID: {course_id} - Name: {course.name} - Credits: {course.credits}\n")
 def write_marks(marks,students):
-    with open("marks.txt","w") as f:
+    with open(file_path("marks.txt"),"w") as f:
         for course_id,mark in marks.items():
             f.write(f"Marks for course {course_id}:\n")
             for student_id,mark in mark.get_student_marks().items():
