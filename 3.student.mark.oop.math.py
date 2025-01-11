@@ -142,6 +142,8 @@ class Management:
                     credits.append(course.credits)
             if credits:  
                 self.students[student_id].gpa = round(np.average(marks, weights=credits),2)
+            else:
+                self.students[student_id].gpa=0.0
     def list_students(self):
         print("\nShowing all students...")
         self.calculating_gpa()
