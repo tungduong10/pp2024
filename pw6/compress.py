@@ -4,7 +4,8 @@ from domains.student import Student
 from domains.courses import Courses
 from domains.marks import Marks
 import datetime
-files = ["students.txt", "courses.txt", "marks.txt"]
+import pickle
+files = ["students.pkl", "courses.pkl", "marks.pkl"]
 
 def file_path(filename):
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
@@ -41,34 +42,19 @@ def decompress():
 def load(menu):
     try:
         if os.path.exists(file_path(files[0])):
-            with open(file_path(files[0]),"r") as f:
-                for line in f:
-                    parts=line.strip().split(" - ")
-                    student_id=parts[0].split(": ")[1]
-                    name=parts[1].split(": ")[1]
-                    raw_dob=parts[2].split(": ")[1]
-                    y,M,d=map(int,raw_dob.split("-"))
-                    dob=datetime.date(y,M,d)
-                    menu.add_stu(Student(student_id,name,dob))
+            with open(file_path(files[0]),"rb") as f:
+                students=pickle.load(f)
+                for student_id in students.keys():
+                    menu.add_stu(students[student_id])
         if os.path.exists(file_path(files[1])):
-            with open(file_path(files[1]),"r") as f:
-                for line in f:
-                    parts=line.strip().split(" - ")
-                    course_id=parts[0].split(": ")[1]
-                    name=parts[1].split(": ")[1]
-                    credits=int(parts[2].split(": ")[1])
-                    menu.add_course(Courses(course_id,name,credits))
+            with open(file_path(files[1]),"rb") as f:
+                courses=pickle.load(f)
+                for course_id in courses.keys():
+                    menu.add_course(courses[course_id])
         if os.path.exists(file_path(files[2])):
-            with open(file_path(files[2]),"r") as f:
-                current_course_id=None
-                for line in f:
-                    if line.startswith("Marks for course"):
-                        current_course_id=line.split(" ")[-1].strip().split(":")[0]
-                        menu.marks[current_course_id]=Marks(current_course_id)
-                    elif current_course_id and line.startswith("ID:"):
-                        parts=line.strip().split(": ")
-                        student_id=parts[1].split(" ")[0]
-                        mark=float(parts[2])
-                        menu.marks[current_course_id].add_mark(student_id,mark)          
+            with open(file_path(files[2]),"rb") as f:
+                marks=pickle.load(f)
+                for course_id in marks.keys():
+                    menu.add_mark(marks[course_id])  
     except Exception as e:
         print(f"\nAn error occurred during loading: {e}")

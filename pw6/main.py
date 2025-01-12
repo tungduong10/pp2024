@@ -19,12 +19,12 @@ def main():
                     print("\nAdding students' info...")
                     student=student_input(existing_ids=menu.students.keys())
                     menu.add_stu(student)
-                    write_students(menu.students)
+                    pickle_students(menu.students)
                 case 2:
                     print("\nAdding courses' info...")
                     course=course_input(existing_ids=menu.courses.keys())
                     menu.add_course(course)
-                    write_courses(menu.courses)
+                    pickle_courses(menu.courses)
                 case 3:
                     print("\nAdding marks...")
                     course_id=input("Enter the course id: ")
@@ -36,7 +36,7 @@ def main():
                         continue
                     marks=mark_input(course_id,menu.students)
                     menu.add_mark(marks)
-                    write_marks(menu.marks,menu.students)
+                    pickle_marks(menu.marks)
                 case 4:
                     if not menu.courses.keys():
                         print("\nNo courses in the system yet")
